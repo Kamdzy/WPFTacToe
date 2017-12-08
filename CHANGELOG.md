@@ -11,7 +11,10 @@ All notable changes to this project will be documented in this file.
 ### Added
 - This CHANGELOG file
 - Working TicTacToe 2 Player mode
+- Selection Section with mode choose menu
 - About Section with this changelog
+- Game Section with playfield view
+- Reset Button
 
 ### Changed
 - Fresh, clean, improved code
