@@ -10,63 +10,91 @@
 
     <Controls:MetroWindow.RightWindowCommands>
         <Controls:WindowCommands>
-            <Button Content="About"/>
+            <Button Content="Main" Click="Main_Click"></Button>
+            <Button Content="Game" x:Name="GameButton" IsEnabled="False" Click="Game_Click"/>
+            <Button Content="About" Click="About_Click"/>
         </Controls:WindowCommands>
     </Controls:MetroWindow.RightWindowCommands>
-
     <Grid>
-        <Frame x:Name="Main"/>
-        <Separator HorizontalAlignment="Left" Height="100" Margin="-73,277,0,0" VerticalAlignment="Top" Width="464" RenderTransformOrigin="0.5,0.5">
-            <Separator.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="90"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Separator.RenderTransform>
-        </Separator>
-        <Separator HorizontalAlignment="Left" Height="100" Margin="10,193,0,0" VerticalAlignment="Top" Width="472" RenderTransformOrigin="0.5,0.5">
-            <Separator.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="
-                                     0"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Separator.RenderTransform>
-        </Separator>
-        <Label Content="WPFTacToe" Margin="110,10,0,539"  FontSize="48" FontWeight="Bold" HorizontalAlignment="Left"/>
-        <Separator HorizontalAlignment="Left" Height="100" Margin="103,277,-71,0" VerticalAlignment="Top" Width="464" RenderTransformOrigin="0.5,0.5">
-            <Separator.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="90"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Separator.RenderTransform>
-        </Separator>
-        <Button x:Name="Button0" Content="Button" HorizontalAlignment="Left" Margin="10,95,0,0" VerticalAlignment="Top" Width="125" Height="125" Click="Button_Click"/>
-        <Button x:Name="Button1" Content="Button" HorizontalAlignment="Left" Margin="180,95,0,0" VerticalAlignment="Top" Width="125" Height="125"/>
-        <Button x:Name="Button2" Content="Button" HorizontalAlignment="Left" Margin="360,95,0,0" VerticalAlignment="Top" Width="125" Height="125"/>
-        <Separator HorizontalAlignment="Left" Height="100" Margin="10,363,0,0" VerticalAlignment="Top" Width="472" RenderTransformOrigin="0.5,0.5">
-            <Separator.RenderTransform>
-                <TransformGroup>
-                    <ScaleTransform/>
-                    <SkewTransform/>
-                    <RotateTransform Angle="                                      0"/>
-                    <TranslateTransform/>
-                </TransformGroup>
-            </Separator.RenderTransform>
-        </Separator>
-        <Button x:Name="Button3" Content="Button" HorizontalAlignment="Left" Margin="10,265,0,0" VerticalAlignment="Top" Width="125" Height="125"/>
-        <Button x:Name="Button4" Content="Button" HorizontalAlignment="Left" Margin="180,265,0,0" VerticalAlignment="Top" Width="125" Height="125"/>
-        <Button x:Name="Button5" Content="Button" HorizontalAlignment="Left" Margin="360,265,0,0" VerticalAlignment="Top" Width="125" Height="125"/>
-        <Button x:Name="Button6" Content="Button" HorizontalAlignment="Left" Margin="7,433,0,0" VerticalAlignment="Top" Width="125" Height="125"/>
-        <Button x:Name="Button7" Content="Button" HorizontalAlignment="Left" Margin="177,433,0,0" VerticalAlignment="Top" Width="125" Height="125"/>
-        <Button x:Name="Button8" Content="Button" HorizontalAlignment="Left" Margin="357,433,0,0" VerticalAlignment="Top" Width="125" Height="125"/>
-        <Label Content="Turn:" Margin="63,575,78,10" VerticalAlignment="Center" RenderTransformOrigin="-2.619,0.612" FontSize="18" Height="44"/>
+
+        <Grid x:Name="SelectionGrid" Visibility="Visible">
+            <Label Content="WPFTacToe" FontSize="48" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <Button Content="Player vs. Player ( Local )" x:Name="PvPL" Click="PvPL_Click" HorizontalAlignment="Center" Margin="0,148,0,0" VerticalAlignment="Top" Width="263" RenderTransformOrigin="-0.32,0.648" Height="56"/>
+
+        </Grid>
+        <Grid x:Name="GameGrid" Visibility="Collapsed">
+            <Grid.Style>
+                <Style TargetType="Grid">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsAboutViewEnabled}" Value="True">
+                            <Setter Property="Visibility" Value="Hidden"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Grid.Style>
+            <Frame x:Name="Main"/>
+            <Grid x:Name="PlayFieldGrid">
+                <Separator HorizontalAlignment="Left" Height="100" Margin="-73,277,0,0" VerticalAlignment="Top" Width="464" RenderTransformOrigin="0.5,0.5">
+                    <Separator.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="90"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Separator.RenderTransform>
+                </Separator>
+                <Separator HorizontalAlignment="Left" Height="100" Margin="10,193,0,0" VerticalAlignment="Top" Width="472" RenderTransformOrigin="0.5,0.5">
+                    <Separator.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="0"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Separator.RenderTransform>
+                </Separator>
+                <Label Content="WPFTacToe" Margin="110,10,0,539"  FontSize="48" FontWeight="Bold" HorizontalAlignment="Left"/>
+                <Separator HorizontalAlignment="Left" Height="100" Margin="103,277,-71,0" VerticalAlignment="Top" Width="464" RenderTransformOrigin="0.5,0.5">
+                    <Separator.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="90"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Separator.RenderTransform>
+                </Separator>
+                <Button x:Name="Button0"  Content="" Click="Button_Click" HorizontalAlignment="Left" Margin="10,95,0,0" VerticalAlignment="Top" Width="125" Height="125" FontSize="72" FontWeight="Normal"/>
+                <Button x:Name="Button1" Content="" Click="Button_Click" HorizontalAlignment="Left" Margin="180,95,0,0" VerticalAlignment="Top" Width="125" Height="125" FontSize="72" FontWeight="Normal"/>
+                <Button x:Name="Button2" Content="" Click="Button_Click" HorizontalAlignment="Left" Margin="360,95,0,0" VerticalAlignment="Top" Width="125" Height="125" FontSize="72" FontWeight="Normal"/>
+                <Separator HorizontalAlignment="Left" Height="100" Margin="10,363,0,0" VerticalAlignment="Top" Width="472" RenderTransformOrigin="0.5,0.5">
+                    <Separator.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <RotateTransform Angle="0"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Separator.RenderTransform>
+                </Separator>
+                <Button x:Name="Button3" Content="" Click="Button_Click" HorizontalAlignment="Left" Margin="10,265,0,0" VerticalAlignment="Top" Width="125" Height="125" FontSize="72" FontWeight="Normal"/>
+                <Button x:Name="Button4" Content="" Click="Button_Click" HorizontalAlignment="Left" Margin="180,265,0,0" VerticalAlignment="Top" Width="125" Height="125" FontSize="72" FontWeight="Normal"/>
+                <Button x:Name="Button5" Content="" Click="Button_Click" HorizontalAlignment="Left" Margin="360,265,0,0" VerticalAlignment="Top" Width="125" Height="125" FontSize="72" FontWeight="Normal"/>
+                <Button x:Name="Button6" Content="" Click="Button_Click" HorizontalAlignment="Left" Margin="7,433,0,0" VerticalAlignment="Top" Width="125" Height="125" FontSize="72" FontWeight="Normal"/>
+                <Button x:Name="Button7" Content="" Click="Button_Click" HorizontalAlignment="Left" Margin="177,433,0,0" VerticalAlignment="Top" Width="125" Height="125" FontSize="72" FontWeight="Normal"/>
+                <Button x:Name="Button8" Content="" Click="Button_Click" HorizontalAlignment="Left" Margin="357,433,0,0" VerticalAlignment="Top" Width="125" Height="125" FontSize="72" FontWeight="Normal"/>
+                <Label  x:Name="Turn_Label" Content="Turn: Player 1" Margin="63,576,189,11" VerticalAlignment="Center" RenderTransformOrigin="-2.619,0.612" FontSize="18" Height="44"/>
+            </Grid>
+
+            <Button x:Name="Restart" Content="Restart" Click="Restart_Click" HorizontalAlignment="Left" Margin="360,576,0,0" VerticalAlignment="Top" Width="122" Height="44"/>
+
+        </Grid>
+
+        <Grid x:Name="AboutGrid" Visibility="Collapsed">
+            <Label Content="WAMBO"></Label>
+            <TextBox x:Name="Changelog" HorizontalAlignment="Left" Height="432" Margin="10,189,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="474" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto" IsReadOnly="True" Focusable="False" Controls:ControlsHelper.FocusBorderBrush="#FFCCCCCC" Controls:ControlsHelper.MouseOverBorderBrush="#FFCCCCCC" Cursor="Arrow" ForceCursor="True"/>
+        </Grid>
     </Grid>
 </Controls:MetroWindow>
