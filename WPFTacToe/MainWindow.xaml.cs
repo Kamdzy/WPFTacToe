@@ -113,13 +113,27 @@ namespace WPFTacToe
 
             for (int x = 0; x < playerInputs[0].Length && wholeDiaognal; x++)
             {
-                if ((playerInputs[x][x].Content as string != player) 
-                    && (playerInputs[x][playerInputs.Length - 1 - x].Content as string != player))
+                if ((playerInputs[x][x].Content as string != player))
                 {
                     wholeDiaognal = false;
                 }
             }
 
+            if (wholeDiaognal)
+            {
+                return true;
+            }
+
+            wholeDiaognal = true;
+
+            for (int x = 0; x < playerInputs[0].Length && wholeDiaognal; x++)
+            {
+                if (playerInputs[x][playerInputs.Length - 1 - x].Content as string != player)
+                {
+                    wholeDiaognal = false;
+                }
+            }
+            
             if (wholeDiaognal)
             {
                 return true;
