@@ -1,8 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using MahApps.Metro.Controls;
+using WPFTacToe.Business_Logic;
 
 namespace WPFTacToe
 {
@@ -13,10 +15,9 @@ namespace WPFTacToe
     {
         #region Fields
 
-        private Button[][] playerInputs;
+        protected Button[][] playerInputs;
+        private TicTacToeBase game;
 
-        private string playerMark = "X";
-        private int roundsLeft = 9;
         #endregion
 
         #region Constructor
@@ -25,15 +26,15 @@ namespace WPFTacToe
         {
             InitializeComponent();
 
-
             playerInputs = new Button[3][]
             {
-                new [] { Button0, Button1, Button2 },
-                new [] { Button3, Button4, Button5 },
-                new [] { Button6, Button7, Button8 },
+                new [] {Button0, Button1, Button2 },
+                new [] {Button3, Button4, Button5 },
+                new [] {Button6, Button7, Button8 },
             };
 
             GetChangelog();
+            game = new TicTacToeBase();
         }
 
         #endregion
@@ -49,153 +50,83 @@ namespace WPFTacToe
 
         }
 
-        public bool CheckWinCondition(string player)
-        {
-            if (CheckRow(player) || CheckColumn(player) || CheckDiagonal(player))
-            {
-                return true;
-            }
-
-            return false;
-
-
-        }
-
-        public bool CheckRow(string player)
-        {
-            for (int y = 0; y < playerInputs.Length; y++)
-            {
-                bool wholeRow = true;
-
-                for (int x = 0; x < playerInputs[y].Length && wholeRow; x++)
-                {
-                    if (playerInputs[x][y].Content as string != player)
-                    {
-                        wholeRow = false;
-                    }
-                }
-
-                if (wholeRow)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public bool CheckColumn(string player)
-        {
-            for (int x = 0; x < playerInputs.Length; x++)
-            {
-                bool wholeColumn = true;
-
-                for (int y = 0; y < playerInputs[x].Length && wholeColumn; y++)
-                {
-                    if (playerInputs[x][y].Content as string != player)
-                    {
-                        wholeColumn = false;
-                    }
-                }
-
-                if (wholeColumn)
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        public bool CheckDiagonal(string player)
-        {
-            bool wholeDiaognal = true;
-
-            for (int x = 0; x < playerInputs[0].Length && wholeDiaognal; x++)
-            {
-                if ((playerInputs[x][x].Content as string != player))
-                {
-                    wholeDiaognal = false;
-                }
-            }
-
-            if (wholeDiaognal)
-            {
-                return true;
-            }
-
-            wholeDiaognal = true;
-
-            for (int x = 0; x < playerInputs[0].Length && wholeDiaognal; x++)
-            {
-                if (playerInputs[x][playerInputs.Length - 1 - x].Content as string != player)
-                {
-                    wholeDiaognal = false;
-                }
-            }
-            
-            if (wholeDiaognal)
-            {
-                return true;
-            }
-
-            return false;
-        }
-
-        public void PlayerSwitch()
-        {
-            if (playerMark == "O")
-            {
-                Turn_Label.Content = "Turn: Player 1 ";
-                playerMark = "X";
-            }
-            else if (playerMark == "X")
-            {
-                Turn_Label.Content = "Turn: Player 2 ";
-                playerMark = "O";
-            }
-        }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button)
             {
-                roundsLeft--;
                 var button = (Button)sender;
-
-
-                button.Content = playerMark;
                 button.IsEnabled = false;
 
-                if (CheckWinCondition("X"))
+
+                if (game.CurrentPlayer == Token.Player1)
+                {
+                    button.Content = "x";
+                    Turn_Label.Content = "Turn: Player 2 ";
+                }
+                else if (game.CurrentPlayer == Token.Player2)
+                {
+                    button.Content = "O";
+                    Turn_Label.Content = "Turn: Player 1 ";
+                }
+
+                switch (button.Name)
+                {
+                    case "Button0":
+                        game[0, 0] = game.CurrentPlayer;
+                        break;
+                    case "Button1":
+                        game[0, 1] = game.CurrentPlayer;
+                        break;
+                    case "Button2":
+                        game[0, 2] = game.CurrentPlayer;
+                        break;
+                    case "Button3":
+                        game[1, 0] = game.CurrentPlayer;
+                        break;
+                    case "Button4":
+                        game[1, 1] = game.CurrentPlayer;
+                        break;
+                    case "Button5":
+                        game[1, 2] = game.CurrentPlayer;
+                        break;
+                    case "Button6":
+                        game[2, 0] = game.CurrentPlayer;
+                        break;
+                    case "Button7":
+                        game[2, 1] = game.CurrentPlayer;
+                        break;
+                    case "Button8":
+                        game[2, 2] = game.CurrentPlayer;
+                        break;
+                    default:
+                        throw new InvalidOperationException("Uknown button was pressed.");
+                }
+
+                if (game.CheckWinCondition(Token.Player1))
                 {
                     Turn_Label.Content = "Player 1 won.";
                     PlayFieldGrid.IsEnabled = false;
                 }
-                else if (CheckWinCondition("O"))
+                else if (game.CheckWinCondition(Token.Player2))
                 {
                     Turn_Label.Content = "Player 2 won.";
                     PlayFieldGrid.IsEnabled = false;
                 }
                 else
                 {
-                    if (roundsLeft <= 0)
+                    if (game.RoundsLeft <= 0)
                     {
                         Turn_Label.Content = "It's a draw.";
                         PlayFieldGrid.IsEnabled = false;
                     }
-                    else
-                    {
-                        PlayerSwitch();
-                    }
                 }
+
             }
         }
 
         private void Restart_Click(object sender, RoutedEventArgs e)
         {
-            playerMark = "X";
-            roundsLeft = 9;
+            game.Reset();
             Turn_Label.Content = "Turn: Player 1";
 
             PlayFieldGrid.IsEnabled = true;
@@ -245,6 +176,6 @@ namespace WPFTacToe
         }
 
         #endregion
-        
+
     }
 }
