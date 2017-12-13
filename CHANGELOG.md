@@ -7,7 +7,11 @@ All notable changes to this project will be documented in this file.
 - Mode selection menu
 - Multiple Computers connection
 
-## 0.0.2 - 2017-12-5
+## 0.1.3 - 2017-12-12
+### Changed
+- Separated Business Logic from UI
+
+## 0.1.2 - 2017-12-5
 ### Added
 - This CHANGELOG file
 - Working TicTacToe 2 Player mode
